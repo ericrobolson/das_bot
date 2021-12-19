@@ -1,12 +1,18 @@
 Doing - 2
-* Implement simple interpreter that queues up things on the timeline
-* * Add loading of a program
-* * Write an interpreter to read in and create keys + times from a script, Lisp based with with Elixir syntax
-* * Add ability to define methods
-* * Add method to load + execute other scripts
-* * Add ability to start a process, wait for it to load, then execute things
+* Make lisp parser using bottom up + tdd, put on github
+* Add parsing of lists
+* Add parsing of strings
+* Add parsing of integers, maybe do numerical tower?
+* Add parsing of floats, maybe do numerical tower?
+* Add locations to errors
+* Define methods
+
 
 Todo 
+* Execute methods
+* Add ability to execute a command in a shell, such as launching a steam game 
+* Add ability to play keyboard input
+* Add ability to include or load other scripts
 * Simplify execution of generator
 * Do mouse movement
 * Wire up `SendMessage`
@@ -20,3 +26,5 @@ Done
 * Make a 'timeline' generator, which allows you to queue up key presses with a delay as well
 * Wire up `SendInput` to send a single key
 * Wire up Windows API
+* Load program in interpreter
+* Ensure that file types are a .bot file, or perhaps a .bot.lisp?

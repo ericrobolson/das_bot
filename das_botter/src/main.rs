@@ -3,6 +3,7 @@ mod key;
 mod send_input;
 mod timeline;
 mod toggle;
+mod tokenizer;
 
 use interpreter::{Interpreter, InterpreterError};
 

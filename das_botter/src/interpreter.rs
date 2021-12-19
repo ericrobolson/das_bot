@@ -1,11 +1,29 @@
+use crate::{
+    key::Key,
+    timeline::Timeline,
+    toggle::Toggle,
+    tokenizer::{self, Token, TokenizerErr},
+};
 use std::{collections::HashMap, time::Duration};
 
-use crate::{key::Key, timeline::Timeline, toggle::Toggle};
+const FILE_EXTENSION: &'static str = ".bot.lisp";
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum InterpreterError {
     MethodNotFound(String),
-    FileNotFound { file_path: String },
+    FileNotFound {
+        file_path: String,
+    },
+    InvalidFile {
+        file_path: String,
+        expected_extension: String,
+    },
+    TokenizerErr(TokenizerErr),
+}
+impl From<TokenizerErr> for InterpreterError {
+    fn from(e: TokenizerErr) -> Self {
+        InterpreterError::TokenizerErr(e)
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -38,12 +56,22 @@ impl Interpreter {
     pub fn reset(&mut self) {
         self.timeline.clear();
     }
+
     pub fn load(&mut self, file_path: String) -> Result<(), InterpreterError> {
+        if !file_path.ends_with(FILE_EXTENSION) {
+            return Err(InterpreterError::InvalidFile {
+                file_path,
+                expected_extension: FILE_EXTENSION.to_string(),
+            });
+        }
+
         match std::fs::read_to_string(&file_path) {
             Ok(contents) => {
                 //
-                for token in contents.split_ascii_whitespace() {
-                    println!("{}", token);
+                let tokens = tokenizer::execute(&contents)?;
+
+                for token in tokens {
+                    println!("{:#?}", token);
                 }
                 Ok(())
             }
