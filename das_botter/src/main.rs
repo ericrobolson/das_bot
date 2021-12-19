@@ -4,22 +4,12 @@ mod send_input;
 mod timeline;
 mod toggle;
 
-use interpreter::Interpreter;
-use key::*;
-use rand::Rng;
-use std::env;
-use std::time::Duration;
-use timeline::*;
-use toggle::Toggle;
+use interpreter::{Interpreter, InterpreterError};
 
-const MAX_TIME_DELTA: u64 = 42069 * 6;
-
-// TODO: add 'random' method that can generate a random duration
-// TODO: add a method that can sleep for a given duration
-
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub enum CliError {
     FilePathRequired,
+    InterpreterError(InterpreterError),
 }
 
 fn main() -> Result<(), CliError> {
@@ -31,9 +21,14 @@ fn main() -> Result<(), CliError> {
     let file_path = &args[1];
 
     let mut interpreter = Interpreter::new();
-    interpreter.load(file_path);
-
-    println!("file: {:?}", file_path);
+    interpreter.load(file_path.clone())?;
+    interpreter.main()?;
 
     Ok(())
+}
+
+impl From<InterpreterError> for CliError {
+    fn from(e: InterpreterError) -> Self {
+        CliError::InterpreterError(e)
+    }
 }
