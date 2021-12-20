@@ -68,7 +68,7 @@ impl Interpreter {
         match std::fs::read_to_string(&file_path) {
             Ok(contents) => {
                 //
-                let tokens = tokenizer::execute(&contents)?;
+                let tokens = tokenizer::execute(&contents, None)?;
 
                 for token in tokens {
                     println!("{:#?}", token);
