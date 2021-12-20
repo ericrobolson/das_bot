@@ -2,6 +2,7 @@ Doing - 2
 - [ ] Make lisp parser using bottom up + tdd, put on github
 - [x] Add in location to everything
 - [ ] Implement some tokenizer tests + cases now
+- [ ] Add in numeric tower
 
 * Add parsing of lists
 * Add parsing of strings
